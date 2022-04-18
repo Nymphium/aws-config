@@ -1,0 +1,4 @@
+(library
+ (name aws_config)
+ (public_name aws-config)
+ (libraries re yojson))

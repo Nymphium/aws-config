@@ -1,0 +1,11 @@
+opam-version: "2.0"
+version: "0.0.1"
+depends: [
+  "dune" {>= "3.0"}
+  "re"
+  "yojson"
+  "ocamlformat" {dev}
+]
+
+build: ["dune" "build" "-j" jobs "-p" "aws-config"]
+install: ["dune" "build" "--release" "@install"]
