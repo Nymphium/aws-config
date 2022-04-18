@@ -4,6 +4,9 @@ let parse = Parse.parse
 (** {!Read.to_yojson} *)
 let to_yojson = Read.to_yojson
 
+(** {!Read.read_file} *)
+let read_file = Read.read_file
+
 (** {!Read.read_credentials}*)
 let read_credentials = Read.read_credentials
 
