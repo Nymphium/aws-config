@@ -14,8 +14,8 @@ let
         {
           owner = "ocaml";
           repo = "opam-repository";
-          rev = "0d3c2ef65372f58cae5fc7cf49915c137ff7c627";
-          sha256 = "0wygg5a8y3a5kqwa1rfmzjns4dfd3vl1i89bqxwsc4l2xynkzgwf";
+          rev = "ec621f01d486932db3e78a7393bd4a51c52df246";
+          sha256 = "114670j6fpjgkbgk96y4yl77xs7ggnmzdhd557kayzvxr31j0d55";
         };
         src = (pkgs.fetchFromGitHub) fetch;
       };
@@ -53,7 +53,7 @@ in
       src = self.directSrc "aws-config";
       opamInputs = 
       {
-        inherit (selection) yojson re dune;
+        inherit (selection) yojson re logs dune;
       };
       opamSrc = "aws-config.opam";
     };
@@ -248,11 +248,11 @@ in
     dune = 
     {
       pname = "dune";
-      version = "3.0.3";
+      version = "3.1.1";
       src = pkgs.fetchurl 
       {
-        url = "https://github.com/ocaml/dune/releases/download/3.0.3/fiber-3.0.3.tbz";
-        sha256 = "0bvkwm0nqs74gwanfcd7xind8c9fdwwdgzzvmsfdkw2q2sd4j16m";
+        url = "https://github.com/ocaml/dune/releases/download/3.1.1/fiber-3.1.1.tbz";
+        sha256 = "0q3bbarnkxglypw2w4rccs9fn093dgn0jdc7qx08i68vmda48j02";
       };
       opamInputs = 
       {
@@ -263,44 +263,44 @@ in
       };
       opamSrc = repoPath (repos.opam-repository.src) 
       {
-        package = "packages/dune/dune.3.0.3";
-        hash = "sha256:18i03m36vrfb1lnaxqacrdqc8ihff4qalrgmgym9xp37ah500d6j";
+        package = "packages/dune/dune.3.1.1";
+        hash = "sha256:1ik4iy7xfwyk7f6ywqza6ckwk736f4mgp6q18jnazcrnk56md5wx";
       };
     };
     dune-build-info = 
     {
       pname = "dune-build-info";
-      version = "3.0.3";
+      version = "3.1.1";
       src = pkgs.fetchurl 
       {
-        url = "https://github.com/ocaml/dune/releases/download/3.0.3/fiber-3.0.3.tbz";
-        sha256 = "0bvkwm0nqs74gwanfcd7xind8c9fdwwdgzzvmsfdkw2q2sd4j16m";
+        url = "https://github.com/ocaml/dune/releases/download/3.1.1/fiber-3.1.1.tbz";
+        sha256 = "0q3bbarnkxglypw2w4rccs9fn093dgn0jdc7qx08i68vmda48j02";
       };
       opamInputs = {
                      inherit (selection) ocaml dune;
       };
       opamSrc = repoPath (repos.opam-repository.src) 
       {
-        package = "packages/dune-build-info/dune-build-info.3.0.3";
-        hash = "sha256:0n0yvk2r99yk1lih3fhaqh2smlhh6nsjhxgmbjrwm9qspvv3bl27";
+        package = "packages/dune-build-info/dune-build-info.3.1.1";
+        hash = "sha256:0hxgv3jj72yca297kpa62d45cm3sgg4fkzs0b3r6rc9sy3krbxaj";
       };
     };
     dune-configurator = 
     {
       pname = "dune-configurator";
-      version = "3.0.3";
+      version = "3.1.1";
       src = pkgs.fetchurl 
       {
-        url = "https://github.com/ocaml/dune/releases/download/3.0.3/fiber-3.0.3.tbz";
-        sha256 = "0bvkwm0nqs74gwanfcd7xind8c9fdwwdgzzvmsfdkw2q2sd4j16m";
+        url = "https://github.com/ocaml/dune/releases/download/3.1.1/fiber-3.1.1.tbz";
+        sha256 = "0q3bbarnkxglypw2w4rccs9fn093dgn0jdc7qx08i68vmda48j02";
       };
       opamInputs = {
                      inherit (selection) ocaml dune csexp;
       };
       opamSrc = repoPath (repos.opam-repository.src) 
       {
-        package = "packages/dune-configurator/dune-configurator.3.0.3";
-        hash = "sha256:1y1f6fabs4r5pyb1p5yvnb5sy12shqviaqq10xg9kwwimxqqyyj4";
+        package = "packages/dune-configurator/dune-configurator.3.1.1";
+        hash = "sha256:1hbj4q7kdnjd5ankmm8k2yj5psn9nnf445ajb8yb3adfxiwjhzvm";
       };
     };
     easy-format = 
@@ -394,6 +394,31 @@ in
       {
         package = "packages/lambda-term/lambda-term.3.2.0";
         hash = "sha256:1lpsxym2pv2wdnykgjs620h5yc1jq279yq6j1185kk6a5p8r7kh6";
+      };
+    };
+    logs = 
+    {
+      pname = "logs";
+      version = "0.7.0";
+      src = pkgs.fetchurl 
+      {
+        url = "https://erratique.ch/software/logs/releases/logs-0.7.0.tbz";
+        sha256 = "1jnmd675wmsmdwyb5mx5b0ac66g4c6gpv5s4mrx2j6pb0wla1x46";
+      };
+      opamInputs = 
+      {
+        inherit (selection) topkg ocamlfind ocamlbuild
+        ocaml;
+        lwt = selection.lwt or null;
+        js_of_ocaml = selection.js_of_ocaml or null;
+        fmt = selection.fmt or null;
+        cmdliner = selection.cmdliner or null;
+        base-threads = selection.base-threads or null;
+      };
+      opamSrc = repoPath (repos.opam-repository.src) 
+      {
+        package = "packages/logs/logs.0.7.0";
+        hash = "sha256:0pys6d25bghrwvwd4gflib2yyp5fvdy0rkivbdyli5dmp5j35a3n";
       };
     };
     lwt = 

@@ -4,7 +4,8 @@ depends: [
   "dune" {>= "3.0"}
   "re"
   "yojson"
-  "ocamlformat" {dev}
+  "logs"
+  "ocamlformat" {dev & = "0.21.0"}
 ]
 
 build: ["dune" "build" "-j" jobs "-p" "aws-config"]

@@ -1,5 +1,3 @@
-exception File_not_found of string
-
 (** Compose field preferring the rhs. *)
 let compose_field l r =
   let acc, r' =
@@ -83,7 +81,6 @@ let prefer_env conf =
 
 (** Read conf file and format as JSON. If [profile] is not found in a file, then returns empty JSON record [{}].
     @param profile The profile is [default] by default, or given by [AWS_PROFILE] environment variable.
-    @raise File_not_found when the file is not found.
  *)
 let read_file ?profile filename =
   let profile = merge_profile profile in
@@ -94,7 +91,15 @@ let read_file ?profile filename =
     |> List.assoc_opt profile
     |> Option.map (fun conf -> to_yojson @@ prefer_env @@ conf)
     |> Option.value ~default:(`Assoc [])
-  else raise @@ File_not_found filename
+  else (
+    let () =
+      Logs.debug (fun m ->
+          m
+            ~header:"aws-config"
+            "file %s not found: read only environment variables"
+            filename)
+    in
+    to_yojson @@ prefer_env @@ ([], []))
 ;;
 
 let get_home () =
@@ -115,9 +120,8 @@ let read_aws_file ?profile basename default_env =
 ;;
 
 (** Read credentials file and select profile.
-    The file to read is ~/.aws/credentials or given by [AWS_SHARED_CREDENTIALS_FILE] environment variable.
+    The file to read is ~/.aws/credentials and/or given by [AWS_SHARED_CREDENTIALS_FILE] environment variable.
     @param profile The profile is [default] by default, or given by [AWS_PROFILE] environment variable.
-    @raise File_not_found when the file is not found.
     @raise Profile_not_found when the profile is not found.
  *)
 let read_credentials ?profile () =
@@ -125,9 +129,8 @@ let read_credentials ?profile () =
 ;;
 
 (** Read config file.
-    The file to read is ~/.aws/credentials or given by [AWS_CONFIG_FILE] environment variable.
+    The file to read is ~/.aws/config and/or given by [AWS_CONFIG_FILE] environment variable.
     @param profile The profile is [default] by default, or given by [AWS_PROFILE] environment variable.
-    @raise File_not_found when the file is not found.
     @raise Profile_not_found when the profile is not found.
  *)
 let read_config ?profile () = read_aws_file ?profile "config" "AWS_CONFIG_FILE"
